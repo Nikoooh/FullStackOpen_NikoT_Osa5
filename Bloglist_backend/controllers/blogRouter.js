@@ -18,7 +18,7 @@ blogRouter.post('/api/blogs', middleware.tokenExtractor, async (request, respons
   try {
 
     const body = request.body
-    const user = await User.findById(body.userId)
+    const user = await User.findById(request.token.id)
 
     const blog = new Blog({
       title: body.title,
@@ -66,6 +66,7 @@ blogRouter.delete('/api/blogs/:id', middleware.tokenExtractor, async (request, r
 })
 
 blogRouter.put('/api/blogs/:id', async (request, response) => {
+  console.log(request.body);
   try {
     const body = request.body
     const blogs = await Blog.findOneAndUpdate(

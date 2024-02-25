@@ -16,6 +16,16 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'react/prop-types': false
+    'react/prop-types': 0,
+    'quotes': [
+      'error',
+      'single'
+    ],
+    'indent': [
+      'error',
+      2  
+    ],
+    'eqeqeq': 'error',
+    'no-console': 0
   },
 }
