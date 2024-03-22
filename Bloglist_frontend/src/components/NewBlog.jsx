@@ -1,40 +1,16 @@
-import { useRef } from 'react'
-import blogService from '../services/blogs'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const NewBlog = ({ setNotification, setVisible, getBlogs }) => {
+const NewBlog = ({ setNotification, createNew }) => {
 
-  const formRef = useRef()
+  const [newBlog, setNewBlog] = useState({title: '', url: '', author: ''})
+  
   const handleNew = async (e) => {
     e.preventDefault()
   
-    const title = formRef.current.title.value
-    const author = formRef.current.author.value
-    const url = formRef.current.url.value
-    const newBlog = {
-      title: title,
-      author: author,
-      url: url
-    }
-  
-    if (title.length > 0 && author.length > 0 && url.length > 0) {
-      try {
-        const yhteys = await blogService.newBlog(newBlog)
-        if (yhteys.status === 201) {
-          setNotification({message: 'a new blog created', type: 'success'})
-          setTimeout(() => {
-            setNotification({message: '', type: null})
-          }, 3000)
-          getBlogs()
-          setVisible(false) 
-          formRef.current.title.value = ''
-          formRef.current.author.value = ''
-          formRef.current.url.value = ''
-        }
-      } catch (error) {
-        console.log(error);
-      }
-          
+    if (newBlog.title.length > 0 || newBlog.url.length > 0 || newBlog.author.length > 0) {
+      await createNew(newBlog)
+      setNewBlog({title: '', url: '', author: ''})
     } else {
       setNotification({message: 'input title, author, url', type: 'error'})
       setTimeout(() => {
@@ -42,25 +18,30 @@ const NewBlog = ({ setNotification, setVisible, getBlogs }) => {
       }, 3000)
     } 
   }
+
   return (
     <div>
-      <form style={{marginBottom: 5}} ref={formRef} onSubmit={handleNew}> 
+      <form style={{marginBottom: 5}} onSubmit={handleNew}> 
         <h2>Create new</h2>
   
-        <a>title:</a> <input name='title'></input>  
+        <a>title:</a> <input value={newBlog.title} onChange={(e) => setNewBlog({...newBlog, title: e.target.value})} name='title' placeholder='title' />
         <br/><br/>
-        <a>author:</a>  <input name='author'></input>  
+
+        <a>author:</a> <input value={newBlog.author} onChange={(e) => setNewBlog({...newBlog, author: e.target.value})} name='author' placeholder='author' />
         <br/><br/>
-        <a>url:</a> <input name='url'></input>  
+
+        <a>url:</a> <input value={newBlog.url} onChange={(e) => setNewBlog({...newBlog, url: e.target.value})} name='url' placeholder='url' />
         <br/><br/>
-        <button type='submit'>Create</button>
+
+        <br/><br/>
+        <button type='submit'>Create blog</button>
       </form>    
     </div>
   )
 }
 
 NewBlog.propTypes = {
-  getBlogs: PropTypes.func.isRequired
+  createNew: PropTypes.func.isRequired
 }
 
 export default NewBlog
