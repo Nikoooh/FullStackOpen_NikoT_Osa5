@@ -1,7 +1,6 @@
 const userRouter = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const blogRouter = require('./blogRouter')
 
 userRouter.post('/api/users', async (request, response, next) => {
     try {

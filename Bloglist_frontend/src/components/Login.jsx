@@ -40,8 +40,8 @@ const Login = ({ setUser, notification, setNotification }) => {
     <div>
       <h2>Log in to the application</h2>
       <form ref={loginRef} onSubmit={handleLogin}>
-        <p>Username</p><input name='username'/>
-        <p>Password</p><input name='password'/> 
+        <p>Username</p><input data-testId='username' name='username'/>
+        <p>Password</p><input data-testId='password' name='password'/> 
         <br/><br/>  
         <button type='submit'>
             Login

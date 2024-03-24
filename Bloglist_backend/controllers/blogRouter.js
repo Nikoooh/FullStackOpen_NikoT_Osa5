@@ -31,9 +31,11 @@ blogRouter.post('/api/blogs', middleware.tokenExtractor, async (request, respons
     if (!blog.title || !blog.url) {
       next("missingInfo")
     } else {
+      
       const blogs = await blog.save()
       user.blogs = user.blogs.concat(blogs._id)
       await user.save()
+
       response.status(201).json(blogs)
     }
   } catch (error) {
