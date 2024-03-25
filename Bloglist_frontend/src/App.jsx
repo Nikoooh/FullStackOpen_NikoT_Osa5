@@ -27,7 +27,7 @@ const App = () => {
     try {
       const yhteys = await blogService.newBlog(newBlog)
       if (yhteys.status === 201) {
-        setNotification({message: 'a new blog created', type: 'success'})
+        setNotification({message: `a new blog ${newBlog.title} by ${newBlog.author} created`, type: 'success'})
         setTimeout(() => {
           setNotification({message: '', type: null})
         }, 3000)
