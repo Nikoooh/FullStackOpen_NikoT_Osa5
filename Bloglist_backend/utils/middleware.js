@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
-
 const errorHandler = (error, request, response, next) => {
     if (error === "shortInput") {
       return response.status(400).json({error: "password and username must be atleast 3 characters long"})
@@ -26,12 +25,9 @@ const errorHandler = (error, request, response, next) => {
     if (error === "missingInfo") {
         return response.status(400).json({error: "title or url missing"})
     }
+    
+    next()
 
-    if (error === "missingToken") {
-      return response.status(400).json({error: "token invalid or missing"})
-    }
-  
-    next(error)
 }
   
 const unknownEndpoint = (error, request, response, next) => {
@@ -40,20 +36,21 @@ const unknownEndpoint = (error, request, response, next) => {
   
 const tokenExtractor = async (request, response, next) => {
     const authorization = request.get('Authorization')
+    let token
     
     if (authorization && authorization.startsWith('Bearer ')) {
-        let token = authorization.replace('Bearer ', '')
-        try {
-            let decodedToken = jwt.verify(token, process.env.SECRET)
-            request.token = decodedToken
-        } catch (error) {
-            next(error)
-        }     
-    } else {
-      next("missingToken")
+        token = authorization.replace('Bearer ', '')  
     }
+    
+    try {
+        let decodedToken = jwt.verify(token, process.env.SECRET)
+        request.token = decodedToken
+    } catch (error) {
+        next(error)
+    } 
 
     next()
+
 }
 
 const userExtractor = async (request, response, next) => {

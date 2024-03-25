@@ -61,14 +61,12 @@ blogRouter.delete('/api/blogs/:id', middleware.tokenExtractor, async (request, r
     }
     
   } catch (error) {
-    console.log(error);
     response.status(404).end()
   }
   
 })
 
 blogRouter.put('/api/blogs/:id', async (request, response) => {
-  console.log(request.body);
   try {
     const body = request.body
     const blogs = await Blog.findOneAndUpdate(

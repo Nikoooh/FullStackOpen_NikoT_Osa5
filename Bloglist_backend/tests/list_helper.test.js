@@ -169,8 +169,6 @@ test('adding one blog to the test database', async () => {
 
   const firstResponse = await api.get('/api/blogs')
 
-  console.log(token.token)
-
   await api.post('/api/blogs')
     .send({
       title: "This is test database",

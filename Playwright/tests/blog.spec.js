@@ -1,5 +1,5 @@
 const { test, describe, expect, beforeEach } = require('@playwright/test');
-import { users } from '../helpers/helpers';
+import { users } from '../utils/list_helpers';
 
 describe('blogs', async () => {
 
