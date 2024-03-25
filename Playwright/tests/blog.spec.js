@@ -70,7 +70,7 @@ describe('blogs', async () => {
     await page.getByRole('textbox', {name: "url"}).fill('https://test.com')
     await page.getByRole('button', {name: "Create blog"}).click()
 
-    await page.getByText("1 like blog").waitFor({state: 'visible'})
+    await page.getByText("1 like blog liked").waitFor({state: 'visible'})
 
     // like the latest blog, last on the list
 
@@ -116,7 +116,7 @@ describe('blogs', async () => {
 
       await page.getByRole('button', {name: "New blog"}).click()
       
-      await page.getByRole('textbox', {name: "title"}).fill('new blog test')
+      await page.getByRole('textbox', {name: "title"}).fill('test')
       await page.getByRole('textbox', {name: "author"}).fill('playwright tester')
       await page.getByRole('textbox', {name: "url"}).fill('https://test.com')
 
@@ -125,7 +125,7 @@ describe('blogs', async () => {
 
     test('new blog can be made', async ({ page }) => {
 
-      await expect(page.getByText('a new blog created')).toBeVisible()
+      await expect(page.getByText('new blog test')).toBeVisible()
 
     })
 
@@ -143,7 +143,7 @@ describe('blogs', async () => {
       await page.getByRole('button', {name: "view"}).last().click()
       await page.getByRole('button', {name: "Delete blog"}).click()
 
-      await expect(page.getByText('new blog test')).not.toBeVisible()
+      await expect(page.getByText('test playwright tester')).not.toBeVisible()
     })
 
   })
